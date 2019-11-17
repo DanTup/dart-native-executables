@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: DanTup/gh-actions/setup-dart@master
-      - run: dart2native bin/main.dart -v -o build/${{ matrix.output-name }}
+      - run: mkdir build && dart2native bin/main.dart -v -o build/${{ matrix.output-name }}
       - uses: actions/upload-artifact@v1
         with:
           name: native-executables
