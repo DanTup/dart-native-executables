@@ -1,0 +1,27 @@
+name: Build on Push
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        include:
+          - os: ubuntu-latest
+            output-name: hello-linux
+          - os: macOS-latest
+            output-name: hello-mac
+          - os: windows-latest
+            output-name: hello-windows.exe
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: DanTup/gh-actions/setup-dart@master
+      - run: dart2native bin/hello -v -o build/{{ matrix.output-name }}
+      - uses: actions/upload-artifact@v1
+        with:
+          name: native-executables
+          path: build
